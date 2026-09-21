@@ -1,11 +1,19 @@
 package de.atruvia.simplespring.math;
 
+
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Component;
+
+@Component
+@Qualifier("secure")
+@RequiredArgsConstructor
 public class CalculatorSecure implements Calculator{
+
+    @Qualifier("logger")
     private final Calculator calculator;
 
-    public CalculatorSecure(final Calculator calculator) {
-        this.calculator = calculator;
-    }
+
 
     public double add(final double a, final double b) {
         System.out.println("Du kommst hier rein");
