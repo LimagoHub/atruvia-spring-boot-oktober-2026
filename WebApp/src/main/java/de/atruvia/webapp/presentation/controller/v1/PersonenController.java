@@ -1,4 +1,4 @@
-package de.atruvia.webapp.presentation.controller;
+package de.atruvia.webapp.presentation.controller.v1;
 
 import de.atruvia.webapp.presentation.dto.PersonDto;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/personen")
+@RequestMapping("/v1/personen")
 public class PersonenController {
 
     @Operation(summary = "Liefert eine Person")
