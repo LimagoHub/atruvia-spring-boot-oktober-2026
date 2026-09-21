@@ -2,8 +2,7 @@
 
 Spring Boot Seminar (Atruvia, Oktober 2026)
 
-Dieses Dokument gibt den groben Ablauf des Seminars wieder. Der Aufbau orientiert sich
-am Seminar `fi-spring-august-2026` (ohne `WebAppNeu`). Jedes Kapitel gehört zu einem
+Dieses Dokument gibt den groben Ablauf des Seminars wieder. Jedes Kapitel gehört zu einem
 Beispielprojekt in diesem Repository; die Projekte bauen aufeinander auf.
 
 ## Überblick
