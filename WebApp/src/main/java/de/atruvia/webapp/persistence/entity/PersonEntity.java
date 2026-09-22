@@ -21,7 +21,7 @@ import java.util.UUID;
 @Builder
 
 @Entity
-@Table(name = "tbl_name")
+@Table(name = "tbl_personen")
 public class PersonEntity {
 
 
