@@ -1,6 +1,8 @@
 package de.atruvia.webapp.service.internal;
 
 import de.atruvia.webapp.events.PersonCreatedEvent;
+import de.atruvia.webapp.events.PersonDeletedEvent;
+import de.atruvia.webapp.events.PersonUpdatedEvent;
 import de.atruvia.webapp.persistence.PersonenRepository;
 import de.atruvia.webapp.service.BlacklistService;
 import de.atruvia.webapp.service.PersonenService;
@@ -77,6 +79,7 @@ public class PersonenServiceImpl implements PersonenService
 
             if("Attila".equals(person.getVorname()))  throw new PersonenServiceException("Antipath");
             repo.save(mapper.convert(person));
+            applicationEventPublisher.publishEvent(new PersonUpdatedEvent(person));
         } catch (NotFoundException e) {
             throw e;
         }catch (RuntimeException e) {
@@ -89,6 +92,7 @@ public class PersonenServiceImpl implements PersonenService
         try {
             if (! repo.existsById(uuid)) throw new NotFoundException("Datensatz konnte nicht gefunden werden");
             repo.deleteById(uuid);
+            applicationEventPublisher.publishEvent(new PersonDeletedEvent(uuid));
         } catch (NotFoundException e) {
             throw e;
         }catch (RuntimeException e) {
