@@ -1,5 +1,6 @@
 package de.atruvia.webapp.service.internal;
 
+import de.atruvia.webapp.events.PersonCreatedEvent;
 import de.atruvia.webapp.persistence.PersonenRepository;
 import de.atruvia.webapp.service.BlacklistService;
 import de.atruvia.webapp.service.PersonenService;
@@ -11,6 +12,7 @@ import de.atruvia.webapp.service.mapper.PersonMapper;
 import de.atruvia.webapp.service.model.Person;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
@@ -33,7 +35,7 @@ public class PersonenServiceImpl implements PersonenService
     @Qualifier("antipathen")
     private final List<String> antipathen;
 
-
+    private final ApplicationEventPublisher applicationEventPublisher;
        /*
         person ist null -> PSE
         vorname ist -> PSE
@@ -56,10 +58,12 @@ public class PersonenServiceImpl implements PersonenService
             //if(blacklistService.isBlacklisted(person))  throw new BlacklistException("Antipath");
             if(antipathen.contains(person.getVorname())) throw new BlacklistException("Antipath");
             repo.save(mapper.convert(person));
+            applicationEventPublisher.publishEvent(new PersonCreatedEvent(person));
         } catch (AlreadyExistsException  |BlacklistException e) {
             throw e;
         }catch (RuntimeException e) {
             throw new PersonenServiceException("Fehler beim Speichern",e);
+
         }
     }
 

@@ -31,7 +31,7 @@ public class PersonConfig {
     }
 
     //@Bean
-    public PersonenService createPersonservice(final PersonenRepository repo, final PersonMapper mapper,@Qualifier("antipathen") final List<String> antipath ) {
+    /*public PersonenService createPersonservice(final PersonenRepository repo, final PersonMapper mapper,@Qualifier("antipathen") final List<String> antipath ) {
        return new PersonenServiceImpl(repo, mapper, antipath);
-    }
+    }*/
 }
