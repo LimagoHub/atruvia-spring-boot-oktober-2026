@@ -2,10 +2,7 @@ package de.atruvia.webapp.presentation.errorhandler;
 
 
 import de.atruvia.webapp.presentation.error.IdMismatchException;
-import de.atruvia.webapp.service.exception.AlreadyExistsException;
-import de.atruvia.webapp.service.exception.NotFoundException;
-import de.atruvia.webapp.service.exception.PersonenServiceException;
-import de.atruvia.webapp.service.exception.SchweineServiceException;
+import de.atruvia.webapp.service.exception.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -44,6 +41,12 @@ public class ErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity<Object> handleAlreadyExistsException(AlreadyExistsException ex, WebRequest request) {
         logger.error("Upps", ex);
         return ResponseEntity.status(HttpStatus.CONFLICT).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(BlacklistException.class)
+    public ResponseEntity<Object> handleBlacklistExceptionException(BlacklistException ex, WebRequest request) {
+        logger.error("Upps", ex);
+        return ResponseEntity.badRequest().body(ex.getMessage());
     }
 
     @ExceptionHandler(NotFoundException.class)

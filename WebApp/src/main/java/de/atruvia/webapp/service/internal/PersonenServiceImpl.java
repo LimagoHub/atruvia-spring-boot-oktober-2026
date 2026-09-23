@@ -1,18 +1,22 @@
 package de.atruvia.webapp.service.internal;
 
 import de.atruvia.webapp.persistence.PersonenRepository;
+import de.atruvia.webapp.service.BlacklistService;
 import de.atruvia.webapp.service.PersonenService;
 import de.atruvia.webapp.service.exception.AlreadyExistsException;
+import de.atruvia.webapp.service.exception.BlacklistException;
 import de.atruvia.webapp.service.exception.NotFoundException;
 import de.atruvia.webapp.service.exception.PersonenServiceException;
 import de.atruvia.webapp.service.mapper.PersonMapper;
 import de.atruvia.webapp.service.model.Person;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -24,6 +28,10 @@ public class PersonenServiceImpl implements PersonenService
 
     private final PersonenRepository repo;
     private final PersonMapper mapper;
+    //private final BlacklistService blacklistService;
+
+    @Qualifier("antipathen")
+    private final List<String> antipathen;
 
 
        /*
@@ -45,9 +53,10 @@ public class PersonenServiceImpl implements PersonenService
             if (person.getVorname() == null || person.getVorname().length() < 2) throw new PersonenServiceException("Vorname zu kurz");
             if (person.getNachname() == null || person.getNachname().length() < 2) throw new PersonenServiceException("Nachname zu kurz");
 
-            if("Attila".equals(person.getVorname()))  throw new PersonenServiceException("Antipath");
+            //if(blacklistService.isBlacklisted(person))  throw new BlacklistException("Antipath");
+            if(antipathen.contains(person.getVorname())) throw new BlacklistException("Antipath");
             repo.save(mapper.convert(person));
-        } catch (AlreadyExistsException e) {
+        } catch (AlreadyExistsException  |BlacklistException e) {
             throw e;
         }catch (RuntimeException e) {
             throw new PersonenServiceException("Fehler beim Speichern",e);
