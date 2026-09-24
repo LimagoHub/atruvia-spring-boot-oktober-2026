@@ -1,6 +1,7 @@
 package de.atruvia.webapp.presentation.controller.v1;
 
 
+import de.atruvia.webapp.aspects.Benchmark;
 import de.atruvia.webapp.presentation.dto.FuetterungDto;
 import de.atruvia.webapp.presentation.dto.SchweinDto;
 import de.atruvia.webapp.presentation.error.IdMismatchException;
@@ -20,6 +21,7 @@ import java.util.UUID;
 @RequestMapping("/v1/schweine")
 @RequiredArgsConstructor
 
+@Benchmark
 public class SchweinController {
 
     private final SchweineService service;

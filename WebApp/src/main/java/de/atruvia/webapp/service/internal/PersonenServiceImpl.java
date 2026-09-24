@@ -38,6 +38,9 @@ public class PersonenServiceImpl implements PersonenService
     private final List<String> antipathen;
 
     private final ApplicationEventPublisher applicationEventPublisher;
+
+
+
        /*
         person ist null -> PSE
         vorname ist -> PSE
