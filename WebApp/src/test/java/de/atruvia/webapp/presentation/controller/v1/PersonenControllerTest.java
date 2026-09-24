@@ -128,6 +128,7 @@ class PersonenControllerTest {
                 new Person(UUID.randomUUID(),"John","Doe"),
                 new Person(UUID.randomUUID(),"Jane","Doe"));
         when(personenServiceMock.findeAlle()).thenReturn(personen);
+        //doThrow(PersonenServiceException.class).when(personenServiceMock).findeAlle();
 
         var entity = restTemplate.exchange("/v1/personen", HttpMethod.GET,requestEntity,new ParameterizedTypeReference<List<PersonDto>>() { });
         var liste = entity.getBody();
